@@ -1,0 +1,176 @@
+<!DOCTYPE html >
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <style>
+        
+#game{
+overflow: auto;
+width: 200px;
+height: 270px;
+border: 1px solid #ddd;
+background: #eee;
+padding: 10px;
+margin: 50px auto;
+}
+
+#game div {
+margin: 0 auto;
+clear: both;
+
+
+}
+
+#game button{
+display: block;
+float: left;
+width: 50px;
+height: 50px;
+margin: 5px;
+}
+
+#gameActionDisplay {
+padding: 20px 10px;
+}
+    
+</style>
+
+
+
+</head>
+<body>
+   
+ <div id="game">
+    <div>
+        <button></button> 
+        <button></button>
+        <button></button>        
+    </div>
+    <div>    
+        <button></button> 
+        <button></button>
+        <button></button>        
+    </div>
+    <div>
+        <button></button> 
+        <button></button>
+        <button></button>        
+    </div>
+
+      <div id="gameActionDisplay">
+  
+    </div>
+</div>
+
+  
+
+    <script type="text/javascript">
+        function main() {
+           
+            var squares = document.querySelectorAll("#game button");
+            var players = ["X", "O"];
+            var currentTurn = 0;
+            var isGameOver = false;
+            var display = document.querySelector("#gameActionDisplay");
+            display.innerText = "Start the Game. Player "+ players[currentTurn] + " Turn." ;
+
+            for (var i = 0; i < squares.length; i++)
+                squares[i].addEventListener("click", function () {
+                    if (isGameOver)
+                        return;
+
+                    if (!isValid(this)) {
+
+                        display.innerText = "Wrong Move";
+                    }
+                    else {
+
+                        setMark(this, players, currentTurn)
+                    }
+
+                    isGameOver = checkWinner(squares, players, currentTurn);
+
+                    if (isGameOver) {
+                        display.innerText = "Player " + players[currentTurn] + " won. ";
+                        return;
+                    }
+                    if (isDraw(squares)) {
+
+                        display.innerText = "Draw. ";
+                        return;
+
+                    }
+                    currentTurn = currentTurn ^ 1;
+
+                    display.innerText = "Player " + players[currentTurn] + " Turn. ";
+
+                });
+            }
+
+        main();
+        function isValid(btn) {
+            return btn.innerText.length == 0;
+        }
+
+        function isDraw(squares) {
+            for (var j = 0; j < squares.length; j++) 
+                if (squares[j].innerText.length == 0) 
+                    return false;
+                
+                return true;
+            
+        }
+
+        function setMark(btn, players, currentTurn) {
+
+            btn.innerText = players[currentTurn];
+        }
+
+     function checkWinner(btn,players,turn) {
+     if(btn[0].innerText==players[turn] &&
+        btn[1].innerText==players[turn] &&
+         btn[2].innerText == players[turn])
+         return true;
+
+     if (btn[3].innerText == players[turn] &&
+        btn[4].innerText == players[turn] &&
+         btn[5].innerText == players[turn])
+         return true;
+         
+          if (btn[6].innerText == players[turn] &&
+        btn[7].innerText == players[turn] &&
+         btn[8].innerText == players[turn])
+              return true; 
+         
+         if (btn[0].innerText == players[turn] &&
+        btn[3].innerText == players[turn] &&
+         btn[6].innerText == players[turn])
+             return true; 
+         
+         if (btn[1].innerText == players[turn] &&
+        btn[4].innerText == players[turn] &&
+         btn[7].innerText == players[turn])
+             return true;
+         
+          if (btn[2].innerText == players[turn] &&
+        btn[5].innerText == players[turn] &&
+         btn[8].innerText == players[turn])
+         return true;
+
+
+          if (btn[0].innerText == players[turn] &&
+        btn[4].innerText == players[turn] &&
+         btn[8].innerText == players[turn])
+              return true;
+
+          if (btn[2].innerText == players[turn] &&
+        btn[4].innerText == players[turn] &&
+         btn[6].innerText == players[turn])
+              return true;
+        }
+              
+    </script>
+   
+</body>
+</html>
